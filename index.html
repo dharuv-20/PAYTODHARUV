@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAY TO DHARUV — Make a Payment, Your Way</title>
+  
+  <!-- Custom Premium Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primaryBg: '#050505',
+            secondaryBg: '#0B0B0F',
+            darkCard: '#111116',
+            darkCardElevated: '#17171D',
+            accentBlue: '#6C7CFF',
+            accentPurple: '#8B5CF6',
+            primaryText: '#F5F5F7',
+            secondaryText: '#A1A1AA',
+            mutedText: '#71717A',
+            borderSubtle: 'rgba(255, 255, 255, 0.08)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'Geist', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['Geist Mono', 'SFMono-Regular', 'Menlo', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-primaryBg text-primaryText min-h-screen relative selection:bg-accentBlue/30 selection:text-white">
+
+  <!-- Matte Paper/Glass Noise Grain overlay -->
+  <div class="noise-overlay"></div>
+
+  <!-- Background Ambient Glows -->
+  <div class="absolute top-[-100px] left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none overflow-hidden -z-10">
+    <div class="glow-spot-blue top-[10%] left-[15%]"></div>
+    <div class="glow-spot-purple top-[18%] right-[15%]"></div>
+  </div>
+
+  <!-- Ambient Grid Overlay -->
+  <div class="absolute inset-0 bg-grid-pattern opacity-[0.8] pointer-events-none -z-20"></div>
+
+  <!-- Interactive Cursor Spotlight Glow -->
+  <div class="cursor-glow pointer-events-none absolute w-[400px] h-[400px] rounded-full bg-accentBlue/10 filter blur-[90px] -translate-x-1/2 -translate-y-1/2 -z-30 opacity-0 transition-opacity duration-300"></div>
+
+  <!-- Background Floating Payment Outline Icons -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none -z-20">
+    <!-- Icon 1: Lock -->
+    <div class="bg-icon-float absolute left-[8%] top-[30%] opacity-[0.035] text-white">
+      <i data-lucide="lock" class="w-12 h-12"></i>
+    </div>
+    <!-- Icon 2: Shield Check -->
+    <div class="bg-icon-float absolute right-[10%] top-[45%] opacity-[0.03] text-white" style="animation-delay: -3s;">
+      <i data-lucide="shield-check" class="w-14 h-14"></i>
+    </div>
+    <!-- Icon 3: Bank -->
+    <div class="bg-icon-float absolute left-[12%] top-[68%] opacity-[0.03] text-white" style="animation-delay: -6s;">
+      <i data-lucide="building-2" class="w-16 h-16"></i>
+    </div>
+    <!-- Icon 4: Credit Card -->
+    <div class="bg-icon-float absolute right-[8%] top-[72%] opacity-[0.035] text-white" style="animation-delay: -2s;">
+      <i data-lucide="credit-card" class="w-12 h-12"></i>
+    </div>
+    <!-- Icon 5: Coins -->
+    <div class="bg-icon-float absolute left-[48%] top-[88%] -translate-x-1/2 opacity-[0.025] text-white" style="animation-delay: -4s;">
+      <i data-lucide="coins" class="w-14 h-14"></i>
+    </div>
+  </div>
+
+  <!-- 1. Sticky Navigation Bar -->
+  <nav class="sticky top-0 z-50 w-full backdrop-blur-md bg-primaryBg/60 border-b border-white/[0.05]">
+    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="#" class="text-sm sm:text-base md:text-xl font-bold tracking-tight text-white hover:opacity-85 transition-opacity whitespace-nowrap">
+        PAY TO <span class="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-accentBlue">DHARUV</span>
+      </a>
+      
+      <!-- Right Side Capsule CTA -->
+      <a href="#payment-method-section" 
+         class="px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-wide bg-white text-primaryBg hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-md shadow-white/5 whitespace-nowrap">
+        Make a Payment
+      </a>
+    </div>
+  </nav>
+
+  <!-- 2. Hero Section -->
+  <header class="relative max-w-5xl mx-auto px-6 pt-24 pb-12 text-center flex flex-col items-center justify-center min-h-[85vh]">
+    
+    <!-- Hero Capsule Badge -->
+    <div class="gsap-hero-badge gsap-reveal inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-medium text-secondaryText tracking-wide mb-8 shadow-sm">
+      <span class="w-1.5 h-1.5 rounded-full bg-accentBlue animate-pulse shadow-[0_0_8px_#6C7CFF]"></span>
+      Everything you need to pay. In one place.
+    </div>
+    
+    <!-- Hero Main Heading -->
+    <h1 class="gsap-hero-title gsap-reveal text-5xl md:text-8xl font-extrabold tracking-tight leading-[1.08] max-w-4xl bg-clip-text text-transparent bg-gradient-to-b from-white via-[#F5F5F7] to-zinc-500 mb-6 relative z-10">
+      Make a Payment, <br />Your Way.
+    </h1>
+
+    <!-- Supporting Text -->
+    <p class="gsap-hero-desc gsap-reveal text-base md:text-lg text-secondaryText max-w-xl leading-relaxed mb-10 font-normal relative z-10">
+      Choose your payment method, scan the QR code or copy the details, and complete your transfer instantly.
+    </p>
+
+    <!-- Action Buttons -->
+    <div class="gsap-hero-btn gsap-reveal flex items-center justify-center mb-10 relative z-10">
+      <a href="#payment-method-section" 
+         class="px-8 py-3.5 rounded-full font-bold text-sm tracking-wide bg-gradient-to-r from-accentBlue to-accentPurple hover:from-[#7C8BFF] hover:to-[#9B6DF7] text-white hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(108,124,255,0.22)] active:scale-[0.98] transition-all duration-300 inline-flex items-center justify-center shadow-md">
+        Choose Payment
+      </a>
+    </div>
+
+    <!-- Secondary Tag Text -->
+    <span class="gsap-hero-tag gsap-reveal text-xs font-bold tracking-[0.25em] text-mutedText uppercase mb-4 relative z-10">
+      Simple &bull; Secure &bull; Direct
+    </span>
+
+    <!-- Animated Wave Track & Floating Coins (Nexaris-Inspired 3D Layout) -->
+    <!-- Positioned absolutely in the background, flanking the text to avoid overlaps. -->
+    <div class="gsap-hero-assets gsap-reveal absolute inset-0 overflow-hidden pointer-events-none -z-10 flex items-center justify-center">
+      <!-- High-contrast glow behind the center text -->
+      <div class="absolute w-[450px] h-[220px] bg-accentBlue/[0.04] rounded-full filter blur-[80px] opacity-70 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+      
+      <svg class="w-full max-w-7xl h-full opacity-[0.22] md:opacity-[0.32]" viewBox="0 0 1000 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="wave-path" d="M -100 220 Q 250 80 500 240 T 1100 180" stroke="url(#waveGradient)" stroke-width="1.8" stroke-linecap="round" />
+        <defs>
+          <linearGradient id="waveGradient" x1="0" y1="0" x2="1000" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#6C7CFF" />
+            <stop offset="50%" stop-color="#8B5CF6" />
+            <stop offset="100%" stop-color="#6C7CFF" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      <!-- Floating Glassmorphic Token 1: UPI -->
+      <div class="floating-token floating-token-upi absolute left-[2%] md:left-[8%] top-[6%] md:top-[22%]">
+        <div class="flex flex-col items-center justify-center">
+          <span class="text-[9px] font-extrabold tracking-widest text-[#6C7CFF] uppercase">UPI</span>
+          <i data-lucide="qr-code" class="w-5 h-5 text-white mt-1 shadow-[0_0_8px_#6C7CFF]"></i>
+        </div>
+      </div>
+      
+      <!-- Floating Glassmorphic Token 2: Bank -->
+      <div class="floating-token floating-token-bank absolute right-[2%] md:right-[8%] top-[10%] md:top-[26%]">
+        <div class="flex flex-col items-center justify-center">
+          <span class="text-[8px] font-extrabold tracking-widest text-[#8B5CF6] uppercase">RuPay</span>
+          <i data-lucide="landmark" class="w-4 h-4 text-white mt-1"></i>
+        </div>
+      </div>
+      
+      <!-- Floating Glassmorphic Token 3: PayPal -->
+      <div class="floating-token floating-token-paypal absolute left-[3%] md:left-[12%] bottom-[6%] md:bottom-[20%]">
+        <div class="flex flex-col items-center justify-center">
+          <span class="text-[8px] font-extrabold tracking-widest text-zinc-400 uppercase">PayPal</span>
+          <i data-lucide="send" class="w-4 h-4 text-white mt-1"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. Payment Method Section -->
+  <section id="payment-method-section" class="max-w-6xl mx-auto px-6 py-20 scroll-mt-24 border-t border-white/[0.04] perspective-1200">
+    <div class="text-center mb-16 gsap-section-header gsap-reveal">
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
+        Choose How You Want to Pay.
+      </h2>
+      <p class="text-secondaryText text-sm md:text-base max-w-lg mx-auto leading-relaxed">
+        Select a payment method to access the required payment details.
+      </p>
+    </div>
+
+    <!-- Cards Container (GSAP Staggered) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Card 1: UPI -->
+      <div data-method="upi" 
+           class="payment-method-card payment-card-active group relative p-10 rounded-[2.5rem] bg-darkCard border border-white/[0.08] cursor-pointer preserve-3d">
+        <!-- Interactive Spotlight Overlay -->
+        <div class="card-glow absolute inset-0 pointer-events-none rounded-[inherit] transition-all duration-300"></div>
+        
+        <div class="translate-z-30 flex flex-col justify-between h-full relative z-10">
+          <div>
+            <!-- Glassmorphic Icon Wrapper -->
+            <div class="w-14 h-14 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-8 glass-icon-wrapper text-secondaryText group-hover:text-white">
+              <i data-lucide="qr-code" class="w-6 h-6"></i>
+            </div>
+            <!-- Title -->
+            <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-accentBlue transition-colors tracking-tight">UPI Payment</h3>
+            <!-- Description -->
+            <p class="text-sm text-secondaryText leading-relaxed">
+              Scan and pay instantly using GPay, PhonePe, Paytm, or any UPI app.
+            </p>
+          </div>
+          <!-- Indicator Arrow -->
+          <div class="flex items-center justify-between mt-12 text-xs font-semibold tracking-wider text-mutedText group-hover:text-primaryText transition-colors">
+            <span class="uppercase">Scan or Copy</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Indian Bank Transfer -->
+      <div data-method="indian-bank" 
+           class="payment-method-card group relative p-10 rounded-[2.5rem] bg-darkCard border border-white/[0.08] cursor-pointer preserve-3d">
+        <!-- Interactive Spotlight Overlay -->
+        <div class="card-glow absolute inset-0 pointer-events-none rounded-[inherit] transition-all duration-300"></div>
+        
+        <div class="translate-z-30 flex flex-col justify-between h-full relative z-10">
+          <div>
+            <!-- Glassmorphic Icon Wrapper -->
+            <div class="w-14 h-14 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-8 glass-icon-wrapper text-secondaryText group-hover:text-white">
+              <i data-lucide="landmark" class="w-6 h-6"></i>
+            </div>
+            <!-- Title -->
+            <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-accentPurple transition-colors tracking-tight">Indian Bank</h3>
+            <!-- Description -->
+            <p class="text-sm text-secondaryText leading-relaxed">
+              Transfer directly to my bank account via IMPS, NEFT, or RTGS.
+            </p>
+          </div>
+          <!-- Indicator Arrow -->
+          <div class="flex items-center justify-between mt-12 text-xs font-semibold tracking-wider text-mutedText group-hover:text-primaryText transition-colors">
+            <span class="uppercase">Account Info</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: PayPal Transfer -->
+      <div data-method="paypal" 
+           class="payment-method-card group relative p-10 rounded-[2.5rem] bg-darkCard border border-white/[0.08] cursor-pointer preserve-3d">
+        <!-- Interactive Spotlight Overlay -->
+        <div class="card-glow absolute inset-0 pointer-events-none rounded-[inherit] transition-all duration-300"></div>
+        
+        <div class="translate-z-30 flex flex-col justify-between h-full relative z-10">
+          <div>
+            <!-- Glassmorphic Icon Wrapper -->
+            <div class="w-14 h-14 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-8 glass-icon-wrapper text-secondaryText group-hover:text-white">
+              <i data-lucide="send" class="w-6 h-6"></i>
+            </div>
+            <!-- Title -->
+            <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-white transition-colors tracking-tight">PayPal</h3>
+            <!-- Description -->
+            <p class="text-sm text-secondaryText leading-relaxed">
+              Send international payments using my PayPal email or link.
+            </p>
+          </div>
+          <!-- Indicator Arrow -->
+          <div class="flex items-center justify-between mt-12 text-xs font-semibold tracking-wider text-mutedText group-hover:text-primaryText transition-colors">
+            <span class="uppercase">Global PayPal</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1.5"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. Selected Payment Details Display Panel (Fintech App Dashboard Layout) -->
+  <section id="payment-details-section" class="max-w-4xl mx-auto px-6 py-8 scroll-mt-24 gsap-reveal">
+    
+    <!-- Details Container Dashboard -->
+    <div class="bg-secondaryBg rounded-[2rem] border border-white/[0.06] p-6 md:p-12 relative overflow-hidden min-h-[420px] flex flex-col justify-between shadow-2xl shadow-black/50">
+      
+      <!-- Ambient light inside card -->
+      <div class="absolute -top-32 -right-32 w-64 h-64 bg-accentBlue/5 rounded-full filter blur-3xl pointer-events-none"></div>
+
+      <div>
+        <!-- A. Premium Dashboard Payee Profile Header -->
+        <div class="flex items-center justify-between border-b border-white/[0.06] pb-6 mb-8">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-accentBlue/10 border border-accentBlue/25 flex items-center justify-center text-accentBlue">
+              <i data-lucide="user" class="w-5 h-5"></i>
+            </div>
+            <div class="flex flex-col text-left">
+              <span class="text-[10px] text-secondaryText font-medium tracking-wide">Recipient Payee</span>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-extrabold text-white tracking-wide" data-config-name>Dharuv</span>
+                <!-- Verified check badge -->
+                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                  <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Live status indicator badge -->
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[9px] font-bold tracking-wider text-emerald-400 uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            Ready to Receive
+          </div>
+        </div>
+        
+        <!-- B. DYNAMIC PAYMENT PANELS -->
+
+        <!-- PANEL 1: UPI Details (Active by Default) -->
+        <div id="upi-panel" class="payment-details-panel opacity-100 translate-y-0 transition-all duration-300">
+          <div class="text-center max-w-md mx-auto mb-8">
+            <h3 class="text-xl font-bold text-white tracking-tight mb-2">UPI Transfer</h3>
+            <p class="text-xs text-secondaryText leading-relaxed">Launch UPI directly on your phone or scan / copy the ID below.</p>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
+            
+            <!-- Column 1: QR Code Frame (Left on Desktop) -->
+            <div class="flex flex-col items-center flex-shrink-0">
+              <div class="relative group">
+                <!-- Glow background behind QR frame -->
+                <div class="absolute inset-0 bg-white/5 rounded-3xl filter blur-xl opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                <!-- Frame -->
+                <div class="relative bg-white p-5 rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.65)] border border-white/10 flex items-center justify-center w-[70vw] md:w-[320px] h-auto">
+                  <div id="upi-qr-container" class="w-full h-auto flex items-center justify-center text-black font-semibold text-xs">
+                    Loading QR Code...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Details & Copy Fields (Right on Desktop) -->
+            <div class="w-full max-w-md flex-grow flex flex-col justify-center gap-6">
+              <!-- UPI App Launcher Button (Mobile Only, Mounted dynamically in JS) -->
+              <div id="upi-app-btn-wrapper" class="hidden w-full">
+                <a id="upi-app-btn" href="#" 
+                   class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full font-bold tracking-wide bg-gradient-to-r from-accentBlue to-accentPurple hover:from-[#7C8BFF] hover:to-[#9B6DF7] text-white hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(108,124,255,0.25)] active:scale-[0.98] transition-all duration-300 shadow-md">
+                  <i data-lucide="zap" class="w-5 h-5"></i>
+                  Pay Direct via UPI App
+                </a>
+                
+                <!-- Separator -->
+                <div class="relative flex py-5 items-center justify-center">
+                  <div class="flex-grow border-t border-white/[0.06]"></div>
+                  <span class="flex-shrink mx-4 text-[9px] font-bold tracking-widest text-mutedText uppercase">Or Scan / Copy ID</span>
+                  <div class="flex-grow border-t border-white/[0.06]"></div>
+                </div>
+              </div>
+
+              <!-- UPI ID Copy Row -->
+              <div class="w-full">
+                <div class="flex items-center justify-between bg-darkCard border border-white/[0.06] rounded-2xl p-4 gap-4">
+                  <div class="flex flex-col text-left">
+                    <span class="text-[9px] font-bold tracking-widest text-mutedText uppercase mb-0.5">UPI ID</span>
+                    <span id="upi-id-text" class="text-sm font-mono text-white tracking-wide font-medium">loading...</span>
+                  </div>
+                  <button data-copy="upi-id-text" 
+                          class="inline-flex items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-secondaryText hover:text-white hover:bg-white/[0.06] active:scale-95 transition-all">
+                    <i data-lucide="copy" class="w-5 h-5"></i>
+                  </button>
+                </div>
+                
+                <p class="text-center md:text-left text-[10px] text-mutedText mt-4 leading-relaxed">
+                  Open PhonePe, GPay, Paytm, or any banking app to complete the transaction.
+                </p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- PANEL 2: Indian Bank Details (Hidden by Default) -->
+        <div id="indian-bank-panel" class="payment-details-panel hidden opacity-0 translate-y-4">
+          <div class="text-center max-w-md mx-auto mb-8">
+            <h3 class="text-xl font-bold text-white tracking-tight mb-2">Indian Bank Details</h3>
+            <p class="text-xs text-secondaryText leading-relaxed">Transfer directly to my bank credentials formatted as a card below.</p>
+          </div>
+
+          <div class="max-w-xl mx-auto">
+            <!-- Virtual Debit Card Layout -->
+            <div class="relative bg-gradient-to-br from-[#12121A] to-[#1E1E2F] border border-white/[0.08] rounded-[2rem] p-6 md:p-8 mb-6 shadow-2xl overflow-hidden preserve-3d">
+              <!-- Card mesh glow -->
+              <div class="absolute -bottom-16 -right-16 w-36 h-36 bg-accentPurple/10 rounded-full filter blur-xl pointer-events-none"></div>
+              <div class="absolute -top-16 -left-16 w-32 h-32 bg-accentBlue/10 rounded-full filter blur-xl pointer-events-none"></div>
+              
+              <div class="flex justify-between items-start mb-10">
+                <div class="flex flex-col text-left">
+                  <span class="text-[9px] font-bold tracking-widest text-[#8B5CF6] uppercase mb-1">Bank Name</span>
+                  <span id="indian-bank" class="text-base font-extrabold text-white">loading...</span>
+                </div>
+                <!-- Contactless Payment Wave Icon -->
+                <div class="text-white/30">
+                  <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                    <path d="M4 20a1 1 0 0 1-.77-1.64c.73-.89 1.13-2 1.13-3.15s-.4-2.26-1.13-3.16a1 1 0 1 1 1.54-1.28c1 1.25 1.59 2.84 1.59 4.44s-.59 3.19-1.59 4.44A1 1 0 0 1 4 20zm4 2a1 1 0 0 1-.76-1.65 10 10 0 0 0 2.22-6.17 10 10 0 0 0-2.22-6.17 1.002 1.002 0 1 1 1.53-1.29 12 12 0 0 1 2.69 7.46 12 12 0 0 1-2.69 7.46A1 1 0 0 1 8 22zm4 2a1 1 0 0 1-.76-1.65A14 14 0 0 0 15 15.2a14 14 0 0 0-2.76-7.23 1 1 0 0 1 1.52-1.3A16 16 0 0 1 17 15.2a16 16 0 0 1-3.24 8.53A1 1 0 0 1 12 24z"/>
+                  </svg>
+                </div>
+              </div>
+              
+              <!-- Monospace Card Number (Account Number) Row -->
+              <div class="flex items-center justify-between bg-black/40 border border-white/[0.04] rounded-2xl p-4 gap-4 mb-6">
+                <div class="flex flex-col text-left">
+                  <span class="text-[9px] font-bold tracking-widest text-mutedText uppercase mb-0.5">Account Number</span>
+                  <span id="indian-account" class="text-base md:text-lg font-mono text-white tracking-widest font-bold">loading...</span>
+                </div>
+                <button data-copy="indian-account" 
+                        class="inline-flex items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-secondaryText hover:text-white hover:bg-white/[0.06] active:scale-95 transition-all">
+                  <i data-lucide="copy" class="w-5 h-5"></i>
+                </button>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4">
+                <!-- Holder Name -->
+                <div class="flex flex-col text-left">
+                  <span class="text-[8px] font-bold tracking-widest text-mutedText uppercase mb-0.5">Card Holder</span>
+                  <span id="indian-holder" class="text-sm font-semibold text-white tracking-wide">loading...</span>
+                </div>
+                
+                <!-- IFSC Code with Copy inside -->
+                <div class="flex flex-col text-left relative">
+                  <span class="text-[8px] font-bold tracking-widest text-mutedText uppercase mb-0.5">IFSC Code</span>
+                  <div class="flex items-center gap-2">
+                    <span id="indian-ifsc" class="text-sm font-mono text-white tracking-wider font-bold">loading...</span>
+                    <button data-copy="indian-ifsc" class="text-secondaryText hover:text-white transition-all active:scale-90">
+                      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Copy All Button -->
+            <div class="pt-2 flex justify-center">
+              <button id="copy-all-indian" 
+                      class="w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-xs tracking-wide bg-white/[0.03] border border-white/[0.08] text-white hover:bg-white/[0.06] hover:border-white/[0.15] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+                Copy All Bank Details
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 3: PayPal Details (Hidden by Default) -->
+        <div id="paypal-panel" class="payment-details-panel hidden opacity-0 translate-y-4">
+          <div class="text-center max-w-md mx-auto mb-8">
+            <h3 class="text-xl font-bold text-white tracking-tight mb-2">PayPal Transfer</h3>
+            <p class="text-xs text-secondaryText leading-relaxed">Send globally using my PayPal link or scan the QR code.</p>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
+            
+            <!-- Column 1: QR Code Frame (Left on Desktop) -->
+            <div id="paypal-qr-wrapper" class="relative group hidden flex-shrink-0">
+              <!-- Glow background behind QR frame -->
+              <div class="absolute inset-0 bg-white/5 rounded-3xl filter blur-xl opacity-60 group-hover:opacity-100 transition-opacity"></div>
+              <!-- Frame -->
+              <div class="relative bg-white p-5 rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.65)] border border-white/10 flex items-center justify-center w-[70vw] md:w-[320px] h-auto">
+                <div id="paypal-qr-container" class="w-full h-auto flex items-center justify-center text-black font-semibold text-xs">
+                  Loading PayPal QR...
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Virtual Card & Links (Right on Desktop) -->
+            <div class="w-full max-w-md flex-grow flex flex-col justify-center gap-6">
+              <!-- Virtual PayPal Card Layout -->
+              <div class="w-full relative bg-gradient-to-br from-[#001c66] to-[#0044bd] border border-white/[0.08] rounded-[2rem] p-6 md:p-8 shadow-2xl overflow-hidden preserve-3d">
+                <!-- Card mesh glow -->
+                <div class="absolute -bottom-16 -right-16 w-36 h-36 bg-accentBlue/20 rounded-full filter blur-xl pointer-events-none"></div>
+                <div class="absolute -top-16 -left-16 w-32 h-32 bg-white/5 rounded-full filter blur-xl pointer-events-none"></div>
+                
+                <div class="flex justify-between items-start mb-8">
+                  <div class="flex flex-col text-left">
+                    <span class="text-[9px] font-bold tracking-widest text-[#6C7CFF] uppercase mb-1">Global Transfer</span>
+                    <span class="text-lg font-extrabold text-white tracking-tight flex items-center gap-1.5">
+                      <i data-lucide="send" class="w-5 h-5"></i> PayPal Transfer
+                    </span>
+                  </div>
+                  <!-- Contactless Icon -->
+                  <div class="text-white/30">
+                    <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                      <path d="M4 20a1 1 0 0 1-.77-1.64c.73-.89 1.13-2 1.13-3.15s-.4-2.26-1.13-3.16a1 1 0 1 1 1.54-1.28c1 1.25 1.59 2.84 1.59 4.44s-.59 3.19-1.59 4.44A1 1 0 0 1 4 20zm4 2a1 1 0 0 1-.76-1.65 10 10 0 0 0 2.22-6.17 10 10 0 0 0-2.22-6.17 1.002 1.002 0 1 1 1.53-1.29 12 12 0 0 1 2.69 7.46 12 12 0 0 1-2.69 7.46A1 1 0 0 1 8 22zm4 2a1 1 0 0 1-.76-1.65A14 14 0 0 0 15 15.2a14 14 0 0 0-2.76-7.23 1 1 0 0 1 1.52-1.3A16 16 0 0 1 17 15.2a16 16 0 0 1-3.24 8.53A1 1 0 0 1 12 24z"/>
+                    </svg>
+                  </div>
+                </div>
+                
+                <!-- PayPal ID Copy Row -->
+                <div class="flex items-center justify-between bg-black/40 border border-white/[0.04] rounded-2xl p-4 gap-4 mb-6">
+                  <div class="flex flex-col text-left">
+                    <span class="text-[9px] font-bold tracking-widest text-zinc-300 uppercase mb-0.5">PayPal ID / Email</span>
+                    <span id="paypal-id-text" class="text-sm font-semibold text-white">loading...</span>
+                  </div>
+                  <button data-copy="paypal-id-text" 
+                          class="inline-flex items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-secondaryText hover:text-white hover:bg-white/[0.06] active:scale-95 transition-all">
+                    <i data-lucide="copy" class="w-5 h-5"></i>
+                  </button>
+                </div>
+                
+                <div class="flex flex-col text-left">
+                  <span class="text-[8px] font-bold tracking-widest text-zinc-300 uppercase mb-0.5">Payee Name</span>
+                  <span class="text-sm font-semibold text-white tracking-wide" data-config-name>Dharuv</span>
+                </div>
+              </div>
+
+              <!-- Action buttons wrapper -->
+              <div class="w-full pt-2 flex flex-col gap-4 sm:flex-row justify-center">
+                <a id="paypal-link-btn" href="#" target="_blank" rel="noopener noreferrer" 
+                   class="w-full sm:w-auto px-8 py-3.5 rounded-full font-bold text-xs tracking-wide bg-gradient-to-r from-accentBlue to-accentPurple hover:from-[#7C8BFF] hover:to-[#9B6DF7] text-white hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(108,124,255,0.15)]">
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                  Pay via PayPal Link
+                </a>
+                
+                <button id="copy-all-paypal" 
+                        class="w-full sm:w-auto px-6 py-3.5 rounded-full font-semibold text-xs tracking-wide bg-white/[0.03] border border-white/[0.08] text-white hover:bg-white/[0.06] hover:border-white/[0.15] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                  <i data-lucide="copy" class="w-4 h-4"></i>
+                  Copy Details
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. Payment Completion & 6. Minimal Footer (Merged Nexaris Blue Container Block) -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <!-- Curved vibrant card with custom grain noise shader -->
+    <div class="bg-nexaris-blue rounded-[3rem] p-12 md:p-20 text-center flex flex-col items-center shadow-[0_30px_70px_rgba(11,77,245,0.18)]">
+      
+      <!-- Icon -->
+      <div class="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-8 border border-white/20 text-white">
+        <i data-lucide="check-circle" class="w-8 h-8"></i>
+      </div>
+
+      <!-- Heading -->
+      <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-4">
+        Payment Completed?
+      </h2>
+      
+      <!-- Subheading -->
+      <p class="text-white/80 text-base md:text-lg max-w-lg mb-10 leading-relaxed font-light">
+        Please send a screenshot of your payment confirmation on WhatsApp so I can verify it quickly.
+      </p>
+
+      <!-- WhatsApp Deep Link Button (Styled as a dark capsule) -->
+      <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" 
+         class="w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-10 py-5 rounded-full font-bold tracking-wide bg-primaryBg hover:bg-[#111116] text-white hover:scale-[1.02] hover:shadow-[0_15px_30px_rgba(0,0,0,0.4)] active:scale-[0.98] transition-all duration-300 border border-white/15">
+        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.45 5.535 0 10.04-4.494 10.042-10.03.002-2.684-1.047-5.207-2.952-7.114C16.558 1.554 14.04 1.502 12.01 1.502c-5.539 0-10.048 4.499-10.05 10.037-.001 1.83.486 3.62 1.411 5.2l-.992 3.622 3.678-.967zm12.35-5.32c-.31-.155-1.838-.907-2.11-.99-.271-.082-.47-.124-.669.124-.199.248-.775.99-.95 1.187-.174.198-.35.223-.66.068-.31-.154-1.312-.483-2.498-1.542-.924-.824-1.547-1.842-1.728-2.152-.18-.31-.02-.477.135-.631.14-.139.31-.362.465-.542.156-.18.208-.31.31-.517.104-.207.052-.388-.026-.543-.078-.155-.67-1.614-.917-2.21-.242-.58-.487-.502-.669-.512-.173-.008-.371-.01-.569-.01-.199 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.838-.752 2.099-1.446.26-.695.26-1.29.183-1.414-.078-.124-.277-.207-.587-.362z"/>
+        </svg>
+        Send Payment Screenshot
+      </a>
+
+      <!-- Horizontal Divider -->
+      <div class="w-full border-t border-white/10 my-16"></div>
+
+      <!-- Minimal Footer content -->
+      <div class="w-full flex flex-col md:flex-row items-center justify-between gap-8 text-white/70 text-sm">
+        <div class="flex flex-col items-center md:items-start gap-1">
+          <span class="font-extrabold tracking-wider text-white uppercase text-base">PAY TO DHARUV</span>
+          <span class="text-xs text-white/50">Simple. Secure. Direct.</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <!-- Social icons styled as transparent capsule rings -->
+          <a href="#" class="w-9 h-9 rounded-full border border-white/10 hover:border-white/30 flex items-center justify-center text-white transition-all"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+          <a href="#" class="w-9 h-9 rounded-full border border-white/10 hover:border-white/30 flex items-center justify-center text-white transition-all"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+          <a href="#" class="w-9 h-9 rounded-full border border-white/10 hover:border-white/30 flex items-center justify-center text-white transition-all"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+          <a href="#" class="w-9 h-9 rounded-full border border-white/10 hover:border-white/30 flex items-center justify-center text-white transition-all"><i data-lucide="github" class="w-4 h-4"></i></a>
+        </div>
+        <div class="flex flex-col items-center md:items-end gap-1">
+          <span class="text-xs text-white/40">&copy; 2026 Dharuv. All rights reserved.</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 flex flex-col gap-3"></div>
+
+  <!-- JavaScript CDN Scripts -->
+  <!-- Dynamic QRCode.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- GSAP core library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- GSAP ScrollTrigger plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lucide SVG Icons library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Project Configuration & App Logic -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
