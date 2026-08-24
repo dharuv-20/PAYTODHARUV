@@ -35,7 +35,25 @@
     }
   </script>
 </head>
-<body class="bg-primaryBg text-primaryText min-h-screen relative selection:bg-accentBlue/30 selection:text-white">
+<body class="bg-primaryBg text-primaryText min-h-screen relative selection:bg-accentBlue/30 selection:text-white overflow-hidden">
+
+  <!-- Premium Preloader Splash Screen -->
+  <div id="preloader" class="fixed inset-0 z-[100] bg-primaryBg flex flex-col items-center justify-center">
+    <div class="relative flex flex-col items-center">
+      <!-- Ambient backing pulse glow -->
+      <div class="absolute w-32 h-32 bg-accentBlue/20 rounded-full filter blur-2xl animate-pulse pointer-events-none"></div>
+      
+      <!-- Brand Name -->
+      <h2 class="preloader-brand text-2xl md:text-3xl font-extrabold tracking-tight text-white mb-6 select-none opacity-0 scale-90">
+        PAY TO <span class="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-accentBlue">DHARUV</span>
+      </h2>
+      
+      <!-- Minimal Progress Bar -->
+      <div class="w-48 h-[2px] bg-white/5 rounded-full overflow-hidden relative">
+        <div class="preloader-progress absolute left-0 top-0 h-full w-0 bg-gradient-to-r from-accentBlue to-accentPurple rounded-full"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Matte Paper/Glass Noise Grain overlay -->
   <div class="noise-overlay"></div>

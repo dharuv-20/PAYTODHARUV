@@ -24,8 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // 7. Initialize 3D Card Hover Tilt Effects
   initTiltEffect();
 
-  // 8. Initialize GSAP Entrance & Scroll Animations
-  initGSAPAnimations();
+  // 8. Run Premium Preloader before showing hero content
+  runPremiumPreloader(() => {
+    initGSAPAnimations();
+  });
 
   // 9. Initialize Interactive Parallax Background Glows
   initParallaxGlows();
@@ -468,6 +470,39 @@ function initGSAPAnimations() {
         }
       }
     );
+
+    // 6. WhatsApp Completion Card entrance
+    const completionCard = document.querySelector(".bg-nexaris-blue");
+    if (completionCard) {
+      const whatsappTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: completionCard,
+          start: "top 90%",
+          toggleActions: "play none none none"
+        }
+      });
+
+      whatsappTl
+        .fromTo(completionCard, 
+          { opacity: 0, y: 60, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out" }
+        )
+        .fromTo(completionCard.querySelector(".w-16"), 
+          { scale: 0, rotation: -180 },
+          { scale: 1, rotation: 0, duration: 0.8, ease: "back.out(1.5)" },
+          "-=0.6"
+        )
+        .fromTo([completionCard.querySelector("h2"), completionCard.querySelector("p")], 
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 },
+          "-=0.5"
+        )
+        .fromTo("#whatsapp-btn", 
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" },
+          "-=0.4"
+        );
+    }
   } else {
     // Fallback if ScrollTrigger fails
     document.querySelectorAll(".gsap-reveal").forEach(el => {
@@ -520,4 +555,47 @@ function initCursorGlow() {
   document.addEventListener("mouseenter", () => {
     gsap.to(cursorGlow, { opacity: 1, duration: 0.5 });
   });
+}
+
+/**
+ * Premium Intro Preloader progress loader
+ */
+function runPremiumPreloader(onCompleteCallback) {
+  const preloader = document.getElementById("preloader");
+  if (!preloader) {
+    onCompleteCallback();
+    return;
+  }
+
+  if (typeof gsap === "undefined") {
+    preloader.remove();
+    document.body.classList.remove("overflow-hidden");
+    onCompleteCallback();
+    return;
+  }
+
+  // Set initial preloader element coordinates
+  gsap.set(".preloader-brand", { opacity: 0, scale: 0.9, y: 10 });
+  gsap.set(".preloader-progress", { width: "0%" });
+
+  const tl = gsap.timeline({
+    onComplete: () => {
+      // Remove preloader & restore scrolling
+      gsap.to(preloader, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.out",
+        onComplete: () => {
+          preloader.remove();
+          document.body.classList.remove("overflow-hidden");
+          onCompleteCallback();
+        }
+      });
+    }
+  });
+
+  tl.to(".preloader-brand", { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out" })
+    .to(".preloader-progress", { width: "100%", duration: 1.4, ease: "power1.inOut" }, "-=0.4")
+    .to(".preloader-brand", { opacity: 0, scale: 1.05, y: -20, duration: 0.4, ease: "power3.in" }, "+=0.1")
+    .to(preloader, { y: "-100%", duration: 0.9, ease: "power4.inOut" }, "-=0.2");
 }
