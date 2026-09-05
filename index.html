@@ -110,34 +110,122 @@
   </nav>
 
   <!-- 2. Hero Section -->
-  <header class="relative max-w-5xl mx-auto px-6 pt-24 pb-12 text-center flex flex-col items-center justify-center min-h-[85vh]">
+  <header class="relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-8 sm:pb-12 text-center flex flex-col items-center justify-center min-h-[75vh] sm:min-h-[85vh]">
     
     <!-- Hero Capsule Badge -->
-    <div class="gsap-hero-badge gsap-reveal inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-medium text-secondaryText tracking-wide mb-8 shadow-sm">
-      <span class="w-1.5 h-1.5 rounded-full bg-accentBlue animate-pulse shadow-[0_0_8px_#6C7CFF]"></span>
+    <div class="gsap-hero-badge gsap-reveal inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/[0.12] text-xs sm:text-sm font-semibold text-zinc-200 tracking-wide mb-5 sm:mb-8 shadow-sm backdrop-blur-md">
+      <span class="w-2 h-2 rounded-full bg-accentBlue animate-pulse shadow-[0_0_10px_#6C7CFF]"></span>
       Everything you need to pay. In one place.
     </div>
     
     <!-- Hero Main Heading -->
-    <h1 class="gsap-hero-title gsap-reveal text-5xl md:text-8xl font-extrabold tracking-tight leading-[1.08] max-w-4xl bg-clip-text text-transparent bg-gradient-to-b from-white via-[#F5F5F7] to-zinc-500 mb-6 relative z-10">
+    <h1 class="gsap-hero-title gsap-reveal text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.08] max-w-4xl bg-clip-text text-transparent bg-gradient-to-b from-white via-[#F5F5F7] to-zinc-400 mb-4 sm:mb-6 relative z-10">
       Make a Payment, <br />Your Way.
     </h1>
 
     <!-- Supporting Text -->
-    <p class="gsap-hero-desc gsap-reveal text-base md:text-lg text-secondaryText max-w-xl leading-relaxed mb-10 font-normal relative z-10">
+    <p class="gsap-hero-desc gsap-reveal text-sm sm:text-base md:text-lg text-zinc-300 max-w-xl leading-relaxed mb-8 sm:mb-10 font-normal relative z-10 px-2">
       Choose your payment method, scan the QR code or copy the details, and complete your transfer instantly.
     </p>
 
-    <!-- Action Buttons -->
-    <div class="gsap-hero-btn gsap-reveal flex items-center justify-center mb-10 relative z-10">
-      <a href="#payment-method-section" 
-         class="px-8 py-3.5 rounded-full font-bold text-sm tracking-wide bg-gradient-to-r from-accentBlue to-accentPurple hover:from-[#7C8BFF] hover:to-[#9B6DF7] text-white hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(108,124,255,0.22)] active:scale-[0.98] transition-all duration-300 inline-flex items-center justify-center shadow-md">
-        Choose Payment
-      </a>
+    <!-- Direct Payment Method Quick Selector (Streamlined Fintech Dock) -->
+    <div class="gsap-hero-btn gsap-reveal w-full max-w-[380px] sm:max-w-xl md:max-w-2xl mx-auto mb-8 sm:mb-10 relative z-10 px-1 sm:px-0">
+      <div class="grid grid-cols-3 gap-2.5 sm:gap-3.5">
+        
+        <!-- Option 1: UPI -->
+        <button type="button" data-hero-method="upi" 
+                class="hero-method-tile group relative p-3 sm:p-4 rounded-2xl bg-[#111116]/90 hover:bg-[#161622] border border-white/[0.08] hover:border-accentBlue/60 text-center sm:text-left transition-all duration-300 hover:scale-[1.02] active:scale-[0.95] shadow-lg flex flex-col sm:flex-row items-center sm:justify-between overflow-hidden">
+          <!-- Ambient Glow on Hover -->
+          <div class="card-ambient-glow absolute -top-8 -right-8 w-20 sm:w-24 h-20 sm:h-24 bg-accentBlue/25 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          
+          <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3.5 relative z-10 min-w-0 w-full sm:w-auto">
+            <!-- Icon -->
+            <div class="method-tile-icon w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-accentBlue/15 border border-accentBlue/30 flex items-center justify-center text-accentBlue group-hover:scale-105 group-hover:bg-accentBlue group-hover:text-white transition-all duration-300 flex-shrink-0 shadow-sm shadow-accentBlue/10">
+              <i data-lucide="qr-code" class="w-4.5 h-4.5 sm:w-5 sm:h-5"></i>
+            </div>
+            <!-- Labels -->
+            <div class="flex flex-col text-center sm:text-left min-w-0">
+              <span class="text-sm sm:text-base font-extrabold text-white tracking-tight leading-snug group-hover:text-white transition-colors truncate">
+                <span class="sm:hidden">UPI</span>
+                <span class="hidden sm:inline">UPI Payment</span>
+              </span>
+              <span class="text-xs sm:text-xs text-zinc-400 tracking-normal truncate mt-0.5">
+                <span class="sm:hidden text-emerald-400 font-semibold">Instant Pay</span>
+                <span class="hidden sm:inline font-medium">GPay &bull; PhonePe &bull; Paytm</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Indicator Arrow (Hidden on mobile for compact dock, visible on desktop) -->
+          <div class="method-tile-arrow hidden sm:block text-secondaryText group-hover:text-accentBlue transition-all duration-300 pl-2 flex-shrink-0">
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5"></i>
+          </div>
+        </button>
+
+        <!-- Option 2: Bank Details -->
+        <button type="button" data-hero-method="indian-bank" 
+                class="hero-method-tile group relative p-3 sm:p-4 rounded-2xl bg-[#111116]/90 hover:bg-[#161622] border border-white/[0.08] hover:border-accentPurple/60 text-center sm:text-left transition-all duration-300 hover:scale-[1.02] active:scale-[0.95] shadow-lg flex flex-col sm:flex-row items-center sm:justify-between overflow-hidden">
+          <!-- Ambient Glow on Hover -->
+          <div class="card-ambient-glow absolute -top-8 -right-8 w-20 sm:w-24 h-20 sm:h-24 bg-accentPurple/25 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          
+          <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3.5 relative z-10 min-w-0 w-full sm:w-auto">
+            <!-- Icon -->
+            <div class="method-tile-icon w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-accentPurple/15 border border-accentPurple/30 flex items-center justify-center text-accentPurple group-hover:scale-105 group-hover:bg-accentPurple group-hover:text-white transition-all duration-300 flex-shrink-0 shadow-sm shadow-accentPurple/10">
+              <i data-lucide="landmark" class="w-4.5 h-4.5 sm:w-5 sm:h-5"></i>
+            </div>
+            <!-- Labels -->
+            <div class="flex flex-col text-center sm:text-left min-w-0">
+              <span class="text-sm sm:text-base font-extrabold text-white tracking-tight leading-snug group-hover:text-white transition-colors truncate">
+                <span class="sm:hidden">Bank</span>
+                <span class="hidden sm:inline">Bank Details</span>
+              </span>
+              <span class="text-xs sm:text-xs text-zinc-400 tracking-normal truncate mt-0.5">
+                <span class="sm:hidden text-purple-300 font-semibold">Zero Fees</span>
+                <span class="hidden sm:inline font-medium">PNB &bull; NEFT &bull; IMPS</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Indicator Arrow (Hidden on mobile for compact dock, visible on desktop) -->
+          <div class="method-tile-arrow hidden sm:block text-secondaryText group-hover:text-accentPurple transition-all duration-300 pl-2 flex-shrink-0">
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5"></i>
+          </div>
+        </button>
+
+        <!-- Option 3: PayPal -->
+        <button type="button" data-hero-method="paypal" 
+                class="hero-method-tile group relative p-3 sm:p-4 rounded-2xl bg-[#111116]/90 hover:bg-[#161622] border border-white/[0.08] hover:border-[#38bdf8]/60 text-center sm:text-left transition-all duration-300 hover:scale-[1.02] active:scale-[0.95] shadow-lg flex flex-col sm:flex-row items-center sm:justify-between overflow-hidden">
+          <!-- Ambient Glow on Hover -->
+          <div class="card-ambient-glow absolute -top-8 -right-8 w-20 sm:w-24 h-20 sm:h-24 bg-[#38bdf8]/25 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          
+          <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3.5 relative z-10 min-w-0 w-full sm:w-auto">
+            <!-- Icon -->
+            <div class="method-tile-icon w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#38bdf8]/15 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] group-hover:scale-105 group-hover:bg-[#38bdf8] group-hover:text-black transition-all duration-300 flex-shrink-0 shadow-sm shadow-[#38bdf8]/10">
+              <i data-lucide="send" class="w-4.5 h-4.5 sm:w-5 sm:h-5"></i>
+            </div>
+            <!-- Labels -->
+            <div class="flex flex-col text-center sm:text-left min-w-0">
+              <span class="text-sm sm:text-base font-extrabold text-white tracking-tight leading-snug group-hover:text-white transition-colors truncate">
+                PayPal
+              </span>
+              <span class="text-xs sm:text-xs text-zinc-400 tracking-normal truncate mt-0.5">
+                <span class="sm:hidden text-sky-300 font-semibold">Global</span>
+                <span class="hidden sm:inline font-medium">Cards &bull; USD</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Indicator Arrow (Hidden on mobile for compact dock, visible on desktop) -->
+          <div class="method-tile-arrow hidden sm:block text-secondaryText group-hover:text-[#38bdf8] transition-all duration-300 pl-2 flex-shrink-0">
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5"></i>
+          </div>
+        </button>
+
+      </div>
     </div>
 
     <!-- Secondary Tag Text -->
-    <span class="gsap-hero-tag gsap-reveal text-xs font-bold tracking-[0.25em] text-mutedText uppercase mb-4 relative z-10">
+    <span class="gsap-hero-tag gsap-reveal text-xs sm:text-sm font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-4 relative z-10">
       Simple &bull; Secure &bull; Direct
     </span>
 
@@ -200,7 +288,7 @@
       
       <!-- Card 1: UPI -->
       <div data-method="upi" 
-           class="payment-method-card payment-card-active group relative p-10 rounded-[2.5rem] bg-darkCard border border-white/[0.08] cursor-pointer preserve-3d">
+           class="payment-method-card group relative p-10 rounded-[2.5rem] bg-darkCard border border-white/[0.08] cursor-pointer preserve-3d">
         <!-- Interactive Spotlight Overlay -->
         <div class="card-glow absolute inset-0 pointer-events-none rounded-[inherit] transition-all duration-300"></div>
         

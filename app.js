@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 8. Run Premium Preloader before showing hero content
   runPremiumPreloader(() => {
     initGSAPAnimations();
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
   });
 
   // 9. Initialize Interactive Parallax Background Glows
@@ -143,51 +146,99 @@ function generateQRCodes() {
 }
 
 /**
+ * Activates a specific payment method across cards, hero buttons, and details panels
+ */
+function switchPaymentMethod(rawMethod, shouldScroll = false) {
+  // Normalize 'bank' to 'indian-bank'
+  const targetMethod = (rawMethod === "bank") ? "indian-bank" : rawMethod;
+
+  const cards = document.querySelectorAll(".payment-method-card");
+  const heroBtns = document.querySelectorAll("[data-hero-method]");
+  const panels = document.querySelectorAll(".payment-details-panel");
+  const detailsSection = document.getElementById("payment-details-section");
+
+  // 1. Update Card Active States in Section 3
+  cards.forEach((c) => {
+    const cardMethod = c.getAttribute("data-method");
+    const isMatch = (cardMethod === targetMethod) || 
+                    (cardMethod === "indian-bank" && targetMethod === "bank") || 
+                    (cardMethod === "bank" && targetMethod === "indian-bank");
+    if (isMatch) {
+      c.classList.add("payment-card-active");
+    } else {
+      c.classList.remove("payment-card-active");
+    }
+  });
+
+  // 2. Update Hero Buttons Active States (Highlighting the selected button)
+  heroBtns.forEach((btn) => {
+    const btnMethod = btn.getAttribute("data-hero-method");
+    btn.classList.remove("is-active-upi", "is-active-bank", "is-active-paypal");
+
+    const isMatch = (btnMethod === targetMethod) || 
+                    (btnMethod === "indian-bank" && targetMethod === "bank") || 
+                    (btnMethod === "bank" && targetMethod === "indian-bank");
+
+    if (isMatch) {
+      if (btnMethod === "upi") btn.classList.add("is-active-upi");
+      else if (btnMethod === "indian-bank" || btnMethod === "bank") btn.classList.add("is-active-bank");
+      else if (btnMethod === "paypal") btn.classList.add("is-active-paypal");
+    }
+  });
+
+  // 3. Hide and Animate Panels switching
+  const panelId = (targetMethod === "bank" || targetMethod === "indian-bank") ? "indian-bank-panel" : `${targetMethod}-panel`;
+  const activePanel = document.getElementById(panelId);
+  if (activePanel) {
+    panels.forEach((panel) => {
+      if (panel !== activePanel && !panel.classList.contains("hidden")) {
+        gsap.to(panel, {
+          opacity: 0,
+          y: -10,
+          duration: 0.25,
+          ease: "power2.in",
+          onComplete: () => {
+            panel.classList.add("hidden");
+          }
+        });
+      }
+    });
+
+    if (activePanel.classList.contains("hidden")) {
+      activePanel.classList.remove("hidden");
+      gsap.fromTo(activePanel,
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", delay: 0.2 }
+      );
+    }
+  }
+
+  // 4. Smooth scroll to details section if requested
+  if (shouldScroll && detailsSection) {
+    detailsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+/**
  * Handles switching between different payment methods with GSAP transitions
  */
 function setupPaymentTabs() {
   const cards = document.querySelectorAll(".payment-method-card");
-  const panels = document.querySelectorAll(".payment-details-panel");
-  const detailsSection = document.getElementById("payment-details-section");
+  const heroBtns = document.querySelectorAll("[data-hero-method]");
 
   cards.forEach((card) => {
     card.addEventListener("click", () => {
       const targetMethod = card.getAttribute("data-method");
+      const shouldScroll = window.innerWidth < 1024;
+      switchPaymentMethod(targetMethod, shouldScroll);
+    });
+  });
 
-      // 1. Update Card Active States
-      cards.forEach((c) => c.classList.remove("payment-card-active"));
-      card.classList.add("payment-card-active");
-
-      // 2. Hide and Animate Panels switching
-      const activePanel = document.getElementById(`${targetMethod}-panel`);
-      if (activePanel && activePanel.classList.contains("hidden")) {
-        // Fade out other panels
-        panels.forEach((panel) => {
-          if (panel !== activePanel && !panel.classList.contains("hidden")) {
-            gsap.to(panel, {
-              opacity: 0,
-              y: -10,
-              duration: 0.25,
-              ease: "power2.in",
-              onComplete: () => {
-                panel.classList.add("hidden");
-              }
-            });
-          }
-        });
-
-        // Fade in new panel
-        activePanel.classList.remove("hidden");
-        gsap.fromTo(activePanel,
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", delay: 0.2 }
-        );
-      }
-
-      // 3. Scroll details into view on mobile viewport
-      if (window.innerWidth < 1024) {
-        detailsSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+  heroBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetMethod = btn.getAttribute("data-hero-method");
+      // Always scroll down to details when selecting from hero
+      switchPaymentMethod(targetMethod, true);
     });
   });
 }

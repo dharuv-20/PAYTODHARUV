@@ -211,6 +211,124 @@ body {
   color: var(--accent-blue) !important;
 }
 
+/* ==========================================================================
+   Hero Payment Method Quick Tiles (Streamlined Fintech Design)
+   ========================================================================== */
+
+.hero-method-tile {
+  cursor: pointer;
+  position: relative;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow, border-color;
+}
+
+.hero-method-tile:hover {
+  transform: translateY(-3px);
+}
+
+.hero-method-tile:active {
+  transform: translateY(-1px) scale(0.985);
+}
+
+/* Hover Accent Borders & Ambient Radial Glows */
+.hero-method-tile[data-hero-method="upi"]:hover {
+  border-color: rgba(108, 124, 255, 0.45);
+  box-shadow: 0 12px 28px -6px rgba(108, 124, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hero-method-tile[data-hero-method="indian-bank"]:hover {
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 12px 28px -6px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hero-method-tile[data-hero-method="paypal"]:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 12px 28px -6px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hero-method-tile:hover .card-ambient-glow {
+  opacity: 1 !important;
+}
+
+/* Active / Selected States (Vibrant, Clear & Elegant) */
+.hero-method-tile.is-active-upi {
+  border-color: #6C7CFF !important;
+  background: linear-gradient(135deg, rgba(108, 124, 255, 0.2) 0%, rgba(18, 18, 26, 0.95) 100%) !important;
+  box-shadow: 0 0 28px rgba(108, 124, 255, 0.35), 0 12px 28px -6px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-2px);
+}
+
+.hero-method-tile.is-active-upi .card-ambient-glow {
+  opacity: 1 !important;
+}
+
+.hero-method-tile.is-active-upi .method-tile-icon {
+  background: #6C7CFF !important;
+  color: #FFFFFF !important;
+  border-color: #6C7CFF !important;
+  box-shadow: 0 0 16px rgba(108, 124, 255, 0.6) !important;
+}
+
+.hero-method-tile.is-active-upi .method-tile-arrow {
+  color: #6C7CFF !important;
+  transform: rotate(90deg);
+}
+
+.hero-method-tile.is-active-bank {
+  border-color: #8B5CF6 !important;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(18, 18, 26, 0.95) 100%) !important;
+  box-shadow: 0 0 28px rgba(139, 92, 246, 0.35), 0 12px 28px -6px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-2px);
+}
+
+.hero-method-tile.is-active-bank .card-ambient-glow {
+  opacity: 1 !important;
+}
+
+.hero-method-tile.is-active-bank .method-tile-icon {
+  background: #8B5CF6 !important;
+  color: #FFFFFF !important;
+  border-color: #8B5CF6 !important;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.6) !important;
+}
+
+.hero-method-tile.is-active-bank .method-tile-arrow {
+  color: #8B5CF6 !important;
+  transform: rotate(90deg);
+}
+
+.hero-method-tile.is-active-paypal {
+  border-color: #38BDF8 !important;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(18, 18, 26, 0.95) 100%) !important;
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.35), 0 12px 28px -6px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-2px);
+}
+
+.hero-method-tile.is-active-paypal .card-ambient-glow {
+  opacity: 1 !important;
+}
+
+.hero-method-tile.is-active-paypal .method-tile-icon {
+  background: #38BDF8 !important;
+  color: #000000 !important;
+  border-color: #38BDF8 !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.6) !important;
+}
+
+.hero-method-tile.is-active-paypal .method-tile-arrow {
+  color: #38BDF8 !important;
+  transform: rotate(90deg);
+}
+
+@media (max-width: 640px) {
+  .hero-method-tile {
+    min-height: 86px;
+    padding: 10px 6px !important;
+  }
+}
+
 /* Nexaris Cobalt Blue Bottom Gradient with CSS Grain */
 .bg-nexaris-blue {
   background: linear-gradient(135deg, #0a4bf5 0%, #001f80 100%);
