@@ -329,6 +329,24 @@ body {
   }
 }
 
+/* Subtle Non-Prominent QR Download Button */
+.qr-download-btn {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.qr-download-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.qr-download-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
 /* Nexaris Cobalt Blue Bottom Gradient with CSS Grain */
 .bg-nexaris-blue {
   background: linear-gradient(135deg, #0a4bf5 0%, #001f80 100%);

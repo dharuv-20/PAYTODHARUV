@@ -428,6 +428,15 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Subtle Non-Prominent Download Button -->
+              <button type="button" 
+                      id="download-upi-qr-btn" 
+                      class="qr-download-btn mt-3.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium text-secondaryText hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] shadow-sm cursor-pointer"
+                      title="Download QR code">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span class="qr-btn-text">Download QR</span>
+              </button>
             </div>
 
             <!-- Column 2: Details & Copy Fields (Right on Desktop) -->
@@ -550,15 +559,26 @@
           <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
             
             <!-- Column 1: QR Code Frame (Left on Desktop) -->
-            <div id="paypal-qr-wrapper" class="relative group hidden flex-shrink-0">
-              <!-- Glow background behind QR frame -->
-              <div class="absolute inset-0 bg-white/5 rounded-3xl filter blur-xl opacity-60 group-hover:opacity-100 transition-opacity"></div>
-              <!-- Frame -->
-              <div class="relative bg-white p-5 rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.65)] border border-white/10 flex items-center justify-center w-[70vw] md:w-[320px] h-auto">
-                <div id="paypal-qr-container" class="w-full h-auto flex items-center justify-center text-black font-semibold text-xs">
-                  Loading PayPal QR...
+            <div id="paypal-qr-wrapper" class="flex flex-col items-center hidden flex-shrink-0">
+              <div class="relative group">
+                <!-- Glow background behind QR frame -->
+                <div class="absolute inset-0 bg-white/5 rounded-3xl filter blur-xl opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                <!-- Frame -->
+                <div class="relative bg-white p-5 rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.65)] border border-white/10 flex items-center justify-center w-[70vw] md:w-[320px] h-auto">
+                  <div id="paypal-qr-container" class="w-full h-auto flex items-center justify-center text-black font-semibold text-xs">
+                    Loading PayPal QR...
+                  </div>
                 </div>
               </div>
+
+              <!-- Subtle Non-Prominent Download Button -->
+              <button type="button" 
+                      id="download-paypal-qr-btn" 
+                      class="qr-download-btn mt-3.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium text-secondaryText hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] shadow-sm cursor-pointer"
+                      title="Download PayPal QR code">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span class="qr-btn-text">Download QR</span>
+              </button>
             </div>
 
             <!-- Column 2: Virtual Card & Links (Right on Desktop) -->
@@ -693,6 +713,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <!-- Project Configuration & App Logic -->
+  <script src="assets/qr_data.js"></script>
   <script src="config.js"></script>
   <script src="app.js"></script>
 

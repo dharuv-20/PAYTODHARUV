@@ -15,10 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // 4. Clipboard Functionality (Copy buttons)
   setupClipboard();
 
-  // 5. Setup WhatsApp Link
+  // 5. Setup QR Code Downloads (UPI & PayPal)
+  setupQRDownload();
+
+  // 6. Setup WhatsApp Link
   setupWhatsAppLink();
 
-  // 6. Setup Mobile UPI App Deep Link Launcher
+  // 7. Setup Mobile UPI App Deep Link Launcher
   setupMobileUPI();
 
   // 7. Initialize 3D Card Hover Tilt Effects
@@ -361,6 +364,167 @@ function toggleButtonFeedback(buttonElement) {
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
   }
+
+  setTimeout(() => {
+    buttonElement.innerHTML = originalHTML;
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  }, 2000);
+}
+
+/**
+ * Sets up download functionality for QR codes (UPI and PayPal)
+ */
+function setupQRDownload() {
+  const setupBtn = (btnId, qrType, containerId, defaultFilename) => {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      downloadQRCode(qrType, containerId, defaultFilename, btn);
+    });
+  };
+
+  const upiFilename = `Dharuv_UPI_QR_${CONFIG.UPI_ID.replace(/[@.]/g, "_")}.jpg`;
+  const paypalFilename = "Dharuv_PayPal_QR.jpg";
+
+  setupBtn("download-upi-qr-btn", "upi", "upi-qr-container", upiFilename);
+  setupBtn("download-paypal-qr-btn", "paypal", "paypal-qr-container", paypalFilename);
+}
+
+/**
+ * Converts a Base64 data URI into a Blob for secure offline local file download
+ */
+function dataURItoBlob(dataURI) {
+  try {
+    const parts = dataURI.split(",");
+    const byteString = atob(parts[1] || parts[0]);
+    const mimeMatch = parts[0].match(/:(.*?);/);
+    const mimeString = mimeMatch ? mimeMatch[1] : "image/jpeg";
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  } catch (err) {
+    console.error("Failed to convert data URI to Blob:", err);
+    return null;
+  }
+}
+
+/**
+ * Triggers an immediate browser file download directly into local storage (Downloads folder)
+ */
+function triggerFileDownload(source, filename, buttonElement) {
+  let downloadUrl = source;
+  let objectUrl = null;
+
+  if (source instanceof Blob) {
+    objectUrl = URL.createObjectURL(source);
+    downloadUrl = objectUrl;
+  } else if (typeof source === "string" && source.startsWith("data:")) {
+    const blob = dataURItoBlob(source);
+    if (blob) {
+      objectUrl = URL.createObjectURL(blob);
+      downloadUrl = objectUrl;
+    }
+  }
+
+  const link = document.createElement("a");
+  link.style.display = "none";
+  link.href = downloadUrl;
+  link.download = filename;
+
+  // Append to body to ensure programmatic click triggers download in all browsers
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  if (objectUrl) {
+    setTimeout(() => {
+      URL.revokeObjectURL(objectUrl);
+    }, 4000);
+  }
+
+  if (buttonElement) {
+    toggleDownloadFeedback(buttonElement);
+  }
+}
+
+/**
+ * Downloads the QR code from pre-encoded Base64 data or container element
+ */
+function downloadQRCode(qrType, containerId, defaultFilename, buttonElement) {
+  // 1. Direct Base64 Data (Instant local storage download, works 100% offline & on file:// protocol)
+  if (typeof QR_DATA !== "undefined" && QR_DATA && QR_DATA[qrType]) {
+    triggerFileDownload(QR_DATA[qrType], defaultFilename, buttonElement);
+    return;
+  }
+
+  // 2. Fallback to DOM elements if QR_DATA is not available
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const img = container.querySelector("img");
+  const canvas = container.querySelector("canvas");
+
+  if (img && img.src) {
+    if (img.src.startsWith("data:") || img.src.startsWith("blob:")) {
+      triggerFileDownload(img.src, defaultFilename, buttonElement);
+      return;
+    }
+
+    // Try fetch & blob for clean download filename on HTTP/HTTPS
+    fetch(img.src)
+      .then((res) => {
+        if (!res.ok) throw new Error("Fetch failed");
+        return res.blob();
+      })
+      .then((blob) => {
+        triggerFileDownload(blob, defaultFilename, buttonElement);
+      })
+      .catch(() => {
+        // Fallback: draw image onto temporary canvas to export as PNG DataURL
+        try {
+          const tempCanvas = document.createElement("canvas");
+          const ctx = tempCanvas.getContext("2d");
+          tempCanvas.width = img.naturalWidth || img.width || 320;
+          tempCanvas.height = img.naturalHeight || img.height || 320;
+          ctx.drawImage(img, 0, 0);
+          const dataUrl = tempCanvas.toDataURL("image/png");
+          triggerFileDownload(dataUrl, defaultFilename.replace(/\.[^.]+$/, ".png"), buttonElement);
+        } catch (e) {
+          // Direct link fallback
+          triggerFileDownload(img.src, defaultFilename, buttonElement);
+        }
+      });
+  } else if (canvas) {
+    try {
+      const dataUrl = canvas.toDataURL("image/png");
+      triggerFileDownload(dataUrl, defaultFilename.replace(/\.[^.]+$/, ".png"), buttonElement);
+    } catch (e) {
+      console.error("Canvas QR export error:", e);
+    }
+  }
+}
+
+/**
+ * Provides visual feedback on the QR download button (checkmark and Saved! text)
+ */
+function toggleDownloadFeedback(buttonElement) {
+  if (!buttonElement) return;
+
+  const originalHTML = buttonElement.innerHTML;
+  buttonElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i><span class="text-emerald-400">Saved!</span>`;
+
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons();
+  }
+
+  showToast("QR Code downloaded successfully");
 
   setTimeout(() => {
     buttonElement.innerHTML = originalHTML;
