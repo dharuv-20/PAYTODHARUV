@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dharuv-20.github.io/PAYTODHARUV/sitemap.xml
