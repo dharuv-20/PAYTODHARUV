@@ -13,11 +13,17 @@ const CONFIG = {
   UPI_ID: "9996461616@ptyes", // Your UPI ID
   UPI_QR_CODE_OVERRIDE: "assets/upi_qr.jpg", // Path to custom QR image copied from Paytm upload
 
-  // Indian Bank Details
-  INDIAN_ACCOUNT_HOLDER: "DHARUV",
-  INDIAN_BANK_NAME: "Punjab National Bank",
-  INDIAN_ACCOUNT_NUMBER: "0068100100004710",
-  INDIAN_IFSC_CODE: "PUNB0006810",
+  // Indian Bank Details (Active: SBI | Previous: PNB kept off)
+  INDIAN_ACCOUNT_HOLDER: "Dharuv",
+  INDIAN_BANK_NAME: "SBI",
+  INDIAN_ACCOUNT_NUMBER: "45566451207",
+  INDIAN_IFSC_CODE: "SBIN0010329",
+
+  /* Inactive / Previous PNB Account (Kept off):
+  INDIAN_BANK_NAME_PNB: "Punjab National Bank",
+  INDIAN_ACCOUNT_NUMBER_PNB: "0068100100004710",
+  INDIAN_IFSC_CODE_PNB: "PUNB0006810",
+  */
 
   // PayPal Details
   PAYPAL_ID: "@DHARUVdharuv907", // PayPal Email or Username
